@@ -1,14 +1,4 @@
-[![Packagist](https://img.shields.io/packagist/v/newerton/yii2-boleto-remessa.svg?style=flat-square)](https://github.com/newerton/yii2-boleto-remessa)
-[![Packagist](https://img.shields.io/packagist/dt/newerton/yii2-boleto-remessa.svg?style=flat-square)](https://github.com/newerton/yii2-boleto-remessa)
-[![Packagist](https://img.shields.io/packagist/l/newerton/yii2-boleto-remessa.svg?style=flat-square)](https://github.com/newerton/yii2-boleto-remessa)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/newerton/yii2-boleto-remessa/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/newerton/yii2-boleto-remessa/?branch=master)
-[![Build Status](https://scrutinizer-ci.com/g/newerton/yii2-boleto-remessa/badges/build.png?b=master)](https://scrutinizer-ci.com/g/newerton/yii2-boleto-remessa/build-status/master)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/newerton/yii2-boleto-remessa/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/newerton/yii2-boleto-remessa/?branch=master)
-[![Code Coverage](https://scrutinizer-ci.com/g/newerton/yii2-boleto-remessa/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/newerton/yii2-boleto-remessa/?branch=master)
-[![Build Status](https://travis-ci.org/newerton/yii2-boleto-remessa.svg?branch=master)](https://travis-ci.org/newerton/yii2-boleto-remessa)
-[![GitHub forks](https://img.shields.io/github/forks/newerton/yii2-boleto-remessa.svg?style=social&label=Fork)](https://github.com/newerton/yii2-boleto-remessa)
-
-# Laravel Boleto
+# Yii2 Boleto, Remessa e Retorno
 Pacote para gerar boletos, remessas e leitura de retorno.
 
 ## Requerimentos
@@ -21,7 +11,7 @@ Pacote para gerar boletos, remessas e leitura de retorno.
 ## Bancos suportados
 
 Banco | Boleto | Remessa 400 | Remessa 240 | Retorno 400 | Retorno 240
------ | ------ | ----------- | ----------- | ----------- | ----------- |
+----- | :---: | :---: | :---: | :---: | :---: |
  Banco do Brasil | :white_check_mark: | :white_check_mark: | | :white_check_mark: | |
  Bancoob (Sicoob) | :white_check_mark: * | :white_check_mark: | | :white_check_mark: * | :white_check_mark: * |
  Banrisul | :white_check_mark: | :white_check_mark: | | :white_check_mark: | |
