@@ -121,17 +121,18 @@ $boleto->renderPDF(true, false); // mostra a janela de impressão e esconde as i
 ```php
 /*
  * O comportamento padrão para os métodos renderPDF() e renderHTML() é retornar uma string pura.
- * Para gerar um retorno no controller do laravel, utilize da seguinte forma:
+ * Para gerar um retorno no controller do yii2, utilize da seguinte forma:
  */
 
 // PDF
-return response($boleto->renderPDF(), 200, [
-    'Content-Type' => 'application/pdf',
-    'Content-Disposition' => 'inline; boleto.pdf',
-]);
+Yii::$app->response->format = \yii\web\Response::FORMAT_RAW;
+$headers = Yii::$app->response->headers;
+$headers->add('Content-Type', 'application/pdf');
+$headers->add('Content-Disposition', 'nline; boleto.pdf');
+return $boleto->renderPDF();
 
 // HTML
-return response($boleto->renderHTML());
+return $boleto->renderHTML();
 
 ```
 
@@ -159,7 +160,7 @@ $pdf->hideInstrucoes();
 //	1º destino: constante com os destinos disponíveis. Ex: Pdf::OUTPUT_SAVE.
 //	2º path: caminho absoluto para salvar o pdf quando o destino for Pdf::OUTPUT_SAVE.
 //Ex:
-$pdf->gerarBoleto(Pdf::OUTPUT_SAVE, storage_path('app/boletos/meu_boleto.pdf')); // salva o boleto na pasta.
+$pdf->gerarBoleto(Pdf::OUTPUT_SAVE, Yii::getAlias('@webroot/boletos/meu_boleto.pdf')); // salva o boleto na pasta.
 $pdf_inline = $pdf->gerarBoleto(Pdf::OUTPUT_STRING); // retorna o boleto em formato string.
 $pdf->gerarBoleto(Pdf::OUTPUT_DOWNLOAD); // força o download pelo navegador.
 
