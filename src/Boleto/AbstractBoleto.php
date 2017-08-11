@@ -1435,8 +1435,8 @@ abstract class AbstractBoleto implements BoletoContract
     {
         $pdf = new Pdf();
         $pdf->addBoleto($this);
-        if ($print) $html->showPrint();
-        if (!$instrucoes) $html->hideInstrucoes();
+        if ($print) $pdf->showPrint();
+        if (!$instrucoes) $pdf->hideInstrucoes();
 
         return $pdf->gerarBoleto('S', null);
     }
