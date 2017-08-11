@@ -137,13 +137,15 @@ class Santander extends AbstractBoleto implements BoletoContract
 
     /**
      * Gera o Nosso Número.
+     * Nota 3: Forma de cálculo do dígito de controle
+     * Composição: NNNNNNN-D
      *
      * @return string
      */
     protected function gerarNossoNumero()
     {
         $numero_boleto = $this->getNumero();
-        return Util::numberFormatGeral($numero_boleto, 12)
+        return Util::numberFormatGeral($numero_boleto, 7)
             . CalculoDV::santanderNossoNumero($numero_boleto);
     }
 
