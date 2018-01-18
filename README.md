@@ -7,6 +7,7 @@ Pacote para gerar boletos, remessas e leitura de retorno.
 
 ## Links
 - [Documentação da API](http://newerton.github.io/yii2-boleto-remessa/)
+- [Documentos Oficiais para gerar Boleto e Remessa](https://github.com/newerton/docs-boleto-remessa)
 
 ## Bancos suportados
 
