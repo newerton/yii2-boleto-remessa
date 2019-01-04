@@ -302,6 +302,8 @@ class Bancoob extends AbstractRemessa implements RemessaContract
         $this->add(210, 212, '000'); // Identificador de carne 000 - Não possui, 001 - Possui Carné
         $this->add(213, 232, '');
         $this->add(233, 240, '');
+        
+        return $this;
     }
 
     /**
@@ -336,6 +338,8 @@ class Bancoob extends AbstractRemessa implements RemessaContract
         $this->add(229, 230, '');
         $this->add(231, 231, '0');
         $this->add(232, 240, '');
+        
+        return $this;
     }
 
     /**
@@ -358,6 +362,8 @@ class Bancoob extends AbstractRemessa implements RemessaContract
         $this->add(16, 17, '01'); // Código de movimento remessa
         $this->add(18, 18, '1');
         $this->add(19, 240, '');
+        
+        return $this;
     }
     
     /**
