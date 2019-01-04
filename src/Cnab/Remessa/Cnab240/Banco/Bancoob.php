@@ -89,6 +89,11 @@ class Bancoob extends AbstractRemessa implements RemessaContract
     protected $convenio;
 
     /**
+     * Quantidade de registros do lote.
+     */
+    private $qtyRegistrosLote;
+    
+    /**
      * @return mixed
      */
     public function getConvenio()
@@ -108,6 +113,36 @@ class Bancoob extends AbstractRemessa implements RemessaContract
         return $this;
     }
 
+    /**
+     * Codigo do cliente junto ao banco.
+     *
+     * @var string
+     */
+    protected $codigoCliente;
+
+    /**
+     * Retorna o codigo do cliente.
+     *
+     * @return string
+     */
+    public function getCodigoCliente()
+    {
+        return $this->codigoCliente;
+    }
+
+    /**
+     * Seta o codigo do cliente.
+     *
+     * @param  mixed $codigoCliente
+     * @return Santander
+     */
+    public function setCodigoCliente($codigoCliente)
+    {
+        $this->codigoCliente = $codigoCliente;
+
+        return $this;
+    }
+    
     /**
      * Retorna o codigo de transmissão.
      *
@@ -205,7 +240,7 @@ class Bancoob extends AbstractRemessa implements RemessaContract
         $this->add(86, 100, Util::formatCnab(9, $boleto->getValor(), 15, 2)); // Valor nominal do título
         $this->add(101, 105, Util::formatCnab(9, 0, 5)); //Agência encarregada da cobrança
         $this->add(106, 106, '0'); //Dígito da Agência do Cedente
-        $this->add(107, 108, Util::formatCnab(9, self::DS_DUPLICATA_DE_SERVICO, 2)); //Espécie do título
+        $this->add(107, 108, '99'); //Espécie do título
         $this->add(109, 109, Util::formatCnab('9', 'N', 1)); //Identif. de título Aceito/Não Aceito
         $this->add(110, 117, date('dmY')); //Data da emissão do título
 
