@@ -118,4 +118,50 @@ class Bancoob extends AbstractBoleto implements BoletoContract
 
         return $this->campoLivre = $campoLivre;
     }
+    
+    /**
+     * Método para gerar a Agencia e o Codigo do Beneficiario
+     *
+     * @return string
+     * @throws \Exception
+     */
+    public function getAgenciaCodigoBeneficiario()
+    {
+        $agencia = $this->getAgencia();
+        $conta = $this->getCodigoCliente();
+
+        return $agencia . ' / ' . $conta;
+    }
+    
+    /**
+     * Codigo do cliente junto ao banco.
+     *
+     * @var string
+     */
+    protected $codigoCliente;
+
+    /**
+     * Seta o codigo do cliente.
+     *
+     * @param mixed $codigoCliente
+     *
+     * @return $this
+     */
+    public function setCodigoCliente($codigoCliente)
+    {
+        $this->codigoCliente = $codigoCliente;
+
+        return $this;
+    }
+
+    /**
+     * Retorna o codigo do cliente.
+     *
+     * @return string
+     */
+    public function getCodigoCliente()
+    {
+        return $this->codigoCliente;
+    }
+    
 }
