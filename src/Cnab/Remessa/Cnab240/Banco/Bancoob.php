@@ -194,7 +194,7 @@ class Bancoob extends AbstractRemessa implements RemessaContract
 
     public function addBoleto(BoletoContract $boleto, $nSequencialLote = null)
     {
-        $this->iniciaDetalhe();
+        
         $this->segmentoP($nSequencialLote + $nSequencialLote + 1, $boleto);
         $this->segmentoQ($nSequencialLote + $nSequencialLote + 2, $boleto);
         $this->segmentoR($nSequencialLote + $nSequencialLote + 2, $boleto);
@@ -373,15 +373,14 @@ class Bancoob extends AbstractRemessa implements RemessaContract
     {
         $this->iniciaTrailer();
 
-        $this->add(1, 3, $this->getCodigoBanco());
-        $this->add(4, 7, '9999');
-        $this->add(8, 8, '9');
-        $this->add(9, 17, '');
-        $this->add(18, 23, Util::formatCnab('9', 1, 6));
-        $this->add(24, 29, Util::formatCnab('9', $this->getCount(), 6));
-        $this->add(30, 35, '000000');
-        $this->add(36, 240, '');
-
+        $this->add(1, 3, Util::onlyNumbers($this->getCodigoBanco())); //Codigo do banco
+        $this->add(4, 7, '9999'); // Numero do lote remessa
+        $this->add(8, 8, '9'); //Tipo de registro
+        $this->add(9, 17, ''); // Reservado (Uso Banco)
+        $this->add(18, 23, Util::formatCnab(9, 1, 6)); // Qtd de lotes do arquivo
+        $this->add(24, 29, Util::formatCnab(9, ($this->qtyRegistrosLote + 4), 6)); // Qtd de lotes do arquivo
+        $this->add(30, 240, ''); // Reservado (Uso Banco)
+        
         return $this;
     }
 
@@ -389,9 +388,6 @@ class Bancoob extends AbstractRemessa implements RemessaContract
     {
         $this->iniciaHeaderLote();
 
-        /**
-         * HEADER DE LOTE
-         */
         $this->add(1, 3, Util::onlyNumbers($this->getCodigoBanco())); //Codigo do banco
         $this->add(4, 7, '0001'); // Lote de Serviço
         $this->add(8, 8, '1'); // Tipo de Registro
@@ -416,7 +412,7 @@ class Bancoob extends AbstractRemessa implements RemessaContract
     }
 
     protected function trailerLote() {
-        $this->iniciaTrailer();
+        $this->iniciaTrailerLote();
 
         $this->add(1, 3, Util::onlyNumbers($this->getCodigoBanco())); //Codigo do banco
         $this->add(4, 7, '9999'); // Numero do lote remessa
