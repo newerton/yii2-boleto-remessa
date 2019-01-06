@@ -237,11 +237,11 @@ class Sicredi extends AbstractRetorno implements RetornoCnab400
     {
         $d = $this->detalheAtual();
         $d->setNossoNumero($this->rem(48, 62, $detalhe))
-            ->setNumeroDocumento($this->rem(117, 126, $detalhe))
             ->setOcorrencia($this->rem(109, 110, $detalhe))
+            ->setNumeroDocumento($this->rem(117, 126, $detalhe))
             ->setOcorrenciaDescricao(array_get($this->ocorrencias, $d->getOcorrencia(), 'Desconhecida'))
-            ->setDataOcorrencia($this->rem(111, 116, $detalhe))
-            ->setDataVencimento($this->rem(147, 152, $detalhe))
+            ->setDataOcorrencia($this->rem(111, 116, $detalhe), 'dmy')
+            ->setDataVencimento($this->rem(147, 152, $detalhe), 'dmy')
             ->setValor(Util::nFloat($this->rem(153, 165, $detalhe)/100, 2, false))
             ->setValorTarifa(Util::nFloat($this->rem(176, 188, $detalhe)/100, 2, false))
             ->setValorAbatimento(Util::nFloat($this->rem(228, 240, $detalhe)/100, 2, false))
@@ -249,9 +249,9 @@ class Sicredi extends AbstractRetorno implements RetornoCnab400
             ->setValorRecebido(Util::nFloat($this->rem(254, 266, $detalhe)/100, 2, false))
             ->setValorMora(Util::nFloat($this->rem(267, 279, $detalhe)/100, 2, false))
             ->setValorMulta(Util::nFloat($this->rem(280, 292, $detalhe)/100, 2, false))
-            ->setDataCredito(Util::nFloat($this->rem(329, 336, $detalhe)/100, 2, false));
-
-        $this->totais['valor_recebido'] += $d->getValorRecebido();
+            ->setDataCredito($this->rem(329, 336, $detalhe), 'Ymd');
+        
+        $this->totais['valor_recebido'] += (double)$d->getValorRecebido();
 
         if ($d->hasOcorrencia('06', '15', '16')) {
             $this->totais['liquidados']++;
