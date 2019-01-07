@@ -336,15 +336,7 @@ class Bancoob extends AbstractRemessa implements RemessaContract
         $this->add(14, 14, Util::formatCnab('9', 'R', 1)); // Nº sequencial do registro de lote
         $this->add(15, 15, ''); // Reservado (Uso Banco)
         $this->add(16, 17, '01'); // Código de movimento remessa
-        $this->add(18, 65, Util::formatCnab(9, 0, 44));
-        
-        $juros = 0;
-        if ($boleto->getJuros() > 0) {
-            $juros = Util::percent($boleto->getValor(), $boleto->getJuros()) / 30;
-        }
-        $this->add(66, 66, '1');
-        $this->add(67, 74, Util::formatCnab(9, $boleto->getDataVencimento()->format('dmY'), 8)); //Data do juros de mora / data de vencimento do titulo
-        $this->add(75, 89, Util::formatCnab(9, $juros, 13, 2));
+        $this->add(18, 89, Util::formatCnab(9, 0, 72));
         $this->add(90, 99, '');
         $this->add(100, 139, '');
         $this->add(140, 179, '');
@@ -442,8 +434,8 @@ class Bancoob extends AbstractRemessa implements RemessaContract
         $this->add(9, 17, ''); // Reservado (Uso Banco)
         $this->add(18, 23, Util::formatCnab(9, 1, 6)); // Qtd de lotes do arquivo
         $this->add(24, 29, Util::formatCnab(9, ($this->qtyRegistrosLote + 4), 6)); // Qtd de lotes do arquivo
-        $this->add(30, 46, Util::formatCnab(9, $this->valorTotalTitulos, 15, 2));
-        $this->add(47, 115, Util::formatCnab(9, 0, 63)); // Qtd de lotes do arquivo
+        $this->add(30, 46, Util::formatCnab(9, ($this->valorTotalTitulos * 100), 17, 2));
+        $this->add(47, 115, Util::formatCnab(9, 0, 69)); // Qtd de lotes do arquivo
         $this->add(116, 240, ''); // Reservado (Uso Banco)
 
         return $this;
