@@ -236,7 +236,7 @@ class Bancoob extends AbstractRemessa implements RemessaContract
         $this->add(38, 47, Util::formatCnab(9, $boleto->getNumero(), 10)); 
         $this->add(48, 49, '01');
         $this->add(50, 51, '01');
-        $this->add(52, 52, '4');
+        $this->add(52, 52, '1');
         $this->add(53, 57, '');
 
         $this->add(58, 58, $this->getCarteira()); // Tipo de Cobrança
@@ -246,12 +246,12 @@ class Bancoob extends AbstractRemessa implements RemessaContract
         $this->add(61, 61, '2'); // Reservado (Uso Banco)
         $this->add(62, 62, '2'); // Reservado (Uso Banco)
         //
-        $this->add(63, 77, Util::formatCnab(9, $boleto->getNumeroControle(), 15)); // Seu Número
+        $this->add(63, 77, Util::formatCnab('X', $boleto->getNumeroControle(), 15)); // Seu Número
         $this->add(78, 85, $boleto->getDataVencimento()->format('dmY')); // Data de vencimento do título
         $this->add(86, 100, Util::formatCnab(9, $boleto->getValor(), 15, 2)); // Valor nominal do título
         $this->add(101, 105, Util::formatCnab(9, 0, 5)); //Agência encarregada da cobrança
         $this->add(106, 106, '');
-        $this->add(107, 108, '99'); //Espécie do título
+        $this->add(107, 108, '02'); //Espécie do título
         $this->add(109, 109, Util::formatCnab('9', 'N', 1)); //Identif. de título Aceito/Não Aceito
         $this->add(110, 117, date('dmY')); //Data da emissão do título
 
@@ -267,7 +267,7 @@ class Bancoob extends AbstractRemessa implements RemessaContract
         $this->add(151, 165, Util::formatCnab(9, $boleto->getDesconto(), 15, 2)); //Valor ou Percentual do desconto concedido //TODO
         $this->add(166, 180, Util::formatCnab(9, 0, 15, 2)); //Valor do IOF a ser recolhido
         $this->add(181, 195, Util::formatCnab(9, 0, 15, 2)); //Valor do abatimento
-        $this->add(196, 220, ''); //Identificação do título na empresa
+        $this->add(196, 220, Util::formatCnab('X', $boleto->getNumeroDocumento(), 25)); //Identificação do título na empresa
         $this->add(221, 221, Util::formatCnab(9, 1, 1)); //Código para protesto
         $this->add(222, 223, Util::formatCnab(9, 0, 2)); //Número de dias para protesto
         $this->add(224, 224, Util::formatCnab(9, 0, 1)); //Código para Baixa/Devolução
