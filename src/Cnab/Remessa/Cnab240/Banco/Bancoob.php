@@ -246,7 +246,7 @@ class Bancoob extends AbstractRemessa implements RemessaContract
         $this->add(61, 61, '2'); // Reservado (Uso Banco)
         $this->add(62, 62, '2'); // Reservado (Uso Banco)
         //
-        $this->add(63, 77, Util::formatCnab('X', $boleto->getNumeroControle(), 15)); // Seu Número
+        $this->add(63, 77, Util::formatCnab('X', $boleto->getNumeroDocumento(), 15)); // Seu Número
         $this->add(78, 85, $boleto->getDataVencimento()->format('dmY')); // Data de vencimento do título
         $this->add(86, 100, Util::formatCnab(9, $boleto->getValor(), 15, 2)); // Valor nominal do título
         $this->add(101, 105, Util::formatCnab(9, 0, 5)); //Agência encarregada da cobrança
