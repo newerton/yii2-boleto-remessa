@@ -96,6 +96,13 @@ class Bancoob extends AbstractRemessa implements RemessaContract
     protected $convenio;
 
     /**
+     * Sequencia Segmento
+     *
+     * @var string
+     */
+    protected $sequenciaSegmento = 0;
+    
+    /**
      * Quantidade de registros do lote.
      */
     private $qtyRegistrosLote;
@@ -201,11 +208,15 @@ class Bancoob extends AbstractRemessa implements RemessaContract
 
     public function addBoleto(BoletoContract $boleto, $nSequencialLote = null)
     {
-        
-        $this->segmentoP($nSequencialLote + $nSequencialLote + 1, $boleto);
-        $this->segmentoQ($nSequencialLote + $nSequencialLote + 2, $boleto);
-        $this->segmentoR($nSequencialLote + $nSequencialLote + 3, $boleto);
-        $this->segmentoS($nSequencialLote + $nSequencialLote + 4, $boleto);
+                
+        $this->sequenciaSegmento++;
+        $this->segmentoP($nSequencialLote + $nSequencialLote + $this->sequenciaSegmento, $boleto);
+        $this->sequenciaSegmento++;
+        $this->segmentoQ($nSequencialLote + $nSequencialLote + $this->sequenciaSegmento, $boleto);
+        $this->sequenciaSegmento++;
+        $this->segmentoR($nSequencialLote + $nSequencialLote + $this->sequenciaSegmento, $boleto);
+        $this->sequenciaSegmento++;
+        $this->segmentoS($nSequencialLote + $nSequencialLote + $this->sequenciaSegmento, $boleto);
 
         return $this;
     }
