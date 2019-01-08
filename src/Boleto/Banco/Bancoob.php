@@ -163,5 +163,36 @@ class Bancoob extends AbstractBoleto implements BoletoContract
     {
         return $this->codigoCliente;
     }
+
+    /**
+     * Parcela do boleto.
+     *
+     * @var string
+     */
+    protected $parcela;
+
+    /**
+     * Seta a Parcela.
+     *
+     * @param mixed $parcela
+     *
+     * @return $this
+     */
+    public function setParcela($parcela)
+    {
+        $this->parcela = $parcela;
+
+        return $this;
+    }
+
+    /**
+     * Retorna a Parcela.
+     *
+     * @return string
+     */
+    public function getParcela()
+    {
+        return $this->parcela;
+    }
     
 }
