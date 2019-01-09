@@ -157,6 +157,9 @@ $pdf->showPrint();
 // Para remover as intruções de impressão
 $pdf->hideInstrucoes();
 
+// Para incluir Comprovante de entrega do boleto
+$pdf->showComprovante();
+
 // O método gerarBoleto() da classe PDF aceita como parâmetro:
 //	1º destino: constante com os destinos disponíveis. Ex: Pdf::OUTPUT_SAVE.
 //	2º path: caminho absoluto para salvar o pdf quando o destino for Pdf::OUTPUT_SAVE.

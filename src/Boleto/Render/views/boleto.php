@@ -28,6 +28,15 @@
         </div>
     <?php endif; ?>
 
+    <?php if ($mostrar_comprovante): ?>
+        <div class="noprint info">
+            <span class="header">Linha Digitável: <?= $linha_digitavel; ?></span>
+            <span class="header">Número: <?= $numero; ?></span>
+            <?= $valor ? '<span class="header">Valor: R$' . $valor . '</span>' : ''; ?>
+            <br>
+        </div>
+    <?php endif; ?>
+
     <div class="linha-pontilhada" style="margin-bottom: 20px;">Recibo do pagador</div>
 
     <div class="info-empresa">

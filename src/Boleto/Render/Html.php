@@ -24,6 +24,11 @@ class Html extends Widget implements HtmlContract
     private $showInstrucoes = true;
 
     /**
+     * @var bool
+     */
+    private $showComprovante = false;
+
+    /**
      * Adicionaa vários boletos
      *
      * @param array $boletos
@@ -58,6 +63,15 @@ class Html extends Widget implements HtmlContract
     public function hideInstrucoes()
     {
         $this->showInstrucoes = false;
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function showComprovante()
+    {
+        $this->showComprovante = true;
         return $this;
     }
 
@@ -154,6 +168,7 @@ class Html extends Widget implements HtmlContract
             'css' => $this->writeCss(),
             'imprimir_carregamento' => (bool)$this->print,
             'mostrar_instrucoes' => (bool)$this->showInstrucoes,
+            'mostrar_comprovante' => (bool)$this->showComprovante,
         ]);
     }
 }
