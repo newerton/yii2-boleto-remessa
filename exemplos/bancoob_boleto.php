@@ -47,4 +47,8 @@ $boleto = new Newerton\Yii2Boleto\Boleto\Banco\Bancoob(
 
 $pdf = new Newerton\Yii2Boleto\Boleto\Render\Pdf();
 $pdf->addBoleto($boleto);
+$pdf->hideInstrucoes();
+$pdf->showComprovante();
 $pdf->gerarBoleto($pdf::OUTPUT_SAVE, __DIR__ . DIRECTORY_SEPARATOR . 'arquivos' . DIRECTORY_SEPARATOR . 'bancoob.pdf');
+header('Content-type: application/pdf');
+@readfile(__DIR__ . DIRECTORY_SEPARATOR . 'arquivos' . DIRECTORY_SEPARATOR . 'bancoob.pdf');

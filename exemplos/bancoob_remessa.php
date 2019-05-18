@@ -45,7 +45,7 @@ $boleto = new Newerton\Yii2Boleto\Boleto\Banco\Bancoob(
     ]
 );
 
-$remessa = new \Newerton\Yii2Boleto\Cnab\Remessa\Cnab400\Banco\Bancoob(
+$remessa = new \Newerton\Yii2Boleto\Cnab\Remessa\Cnab240\Banco\Bancoob(
     [
         'agencia'       => 1111,
         'conta'         => 22222,
