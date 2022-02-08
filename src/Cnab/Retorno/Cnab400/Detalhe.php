@@ -96,7 +96,7 @@ class Detalhe implements DetalheContract
     }
 
     /**
-     * @param string $nossoNumero
+     * @param string $carteira
      *
      * @return Detalhe
      */

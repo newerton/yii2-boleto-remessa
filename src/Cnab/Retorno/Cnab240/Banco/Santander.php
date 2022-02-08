@@ -5,10 +5,13 @@ namespace Newerton\Yii2Boleto\Cnab\Retorno\Cnab240\Banco;
 use Newerton\Yii2Boleto\Cnab\Retorno\Cnab240\AbstractRetorno;
 use Newerton\Yii2Boleto\Contracts\Boleto\Boleto as BoletoContract;
 use Newerton\Yii2Boleto\Contracts\Cnab\RetornoCnab240;
+use Newerton\Yii2Boleto\Traits\ArrayHelper;
 use Newerton\Yii2Boleto\Util;
 
 class Santander extends AbstractRetorno implements RetornoCnab240
 {
+    use ArrayHelper;
+
     /**
      * Código do banco
      *
@@ -206,22 +209,22 @@ class Santander extends AbstractRetorno implements RetornoCnab240
         $d = $this->detalheAtual();
         if ($this->getSegmentType($detalhe) == 'T') {
             $d->setOcorrencia($this->rem(16, 17, $detalhe))
-                ->setOcorrenciaDescricao(array_get($this->ocorrencias, $this->detalheAtual()->getOcorrencia(), 'Desconhecida'))
+                ->setOcorrenciaDescricao($this->array_get($this->ocorrencias, $this->detalheAtual()->getOcorrencia(), 'Desconhecida'))
                 ->setNossoNumero($this->rem(41, 53, $detalhe))
                 ->setCarteira($this->rem(54, 54, $detalhe))
                 ->setNumeroDocumento($this->rem(55, 69, $detalhe))
                 ->setDataVencimento($this->rem(70, 77, $detalhe))
-                ->setValor(Util::nFloat($this->rem(78, 92, $detalhe)/100, 2, false))
+                ->setValor(Util::nFloat($this->rem(78, 92, $detalhe) / 100, 2, false))
                 ->setNumeroControle($this->rem(101, 125, $detalhe))
                 ->setPagador([
                     'nome' => $this->rem(144, 183, $detalhe),
                     'documento' => $this->rem(129, 143, $detalhe),
                 ])
-                ->setValorTarifa(Util::nFloat($this->rem(194, 208, $detalhe)/100, 2, false));
+                ->setValorTarifa(Util::nFloat($this->rem(194, 208, $detalhe) / 100, 2, false));
 
             /**
              * ocorrencias
-            */
+             */
             if ($d->hasOcorrencia('06', '09', '17')) {
                 $this->totais['liquidados']++;
                 $d->setOcorrenciaTipo($d::OCORRENCIA_LIQUIDADA);
@@ -240,11 +243,11 @@ class Santander extends AbstractRetorno implements RetornoCnab240
             } elseif ($d->hasOcorrencia('03', '26', '30')) {
                 $this->totais['erros']++;
                 $errorsRetorno = str_split(sprintf('%010s', $this->rem(209, 218, $detalhe)), 2);
-                $error = array_get($this->rejeicoes, $errorsRetorno[0], '');
-                $error .= array_get($this->rejeicoes, $errorsRetorno[1], '');
-                $error .= array_get($this->rejeicoes, $errorsRetorno[2], '');
-                $error .= array_get($this->rejeicoes, $errorsRetorno[3], '');
-                $error .= array_get($this->rejeicoes, $errorsRetorno[4], '');
+                $error = $this->array_get($this->rejeicoes, $errorsRetorno[0], '');
+                $error .= $this->array_get($this->rejeicoes, $errorsRetorno[1], '');
+                $error .= $this->array_get($this->rejeicoes, $errorsRetorno[2], '');
+                $error .= $this->array_get($this->rejeicoes, $errorsRetorno[3], '');
+                $error .= $this->array_get($this->rejeicoes, $errorsRetorno[4], '');
                 $d->setError($error);
             } else {
                 $d->setOcorrenciaTipo($d::OCORRENCIA_OUTROS);
@@ -252,11 +255,11 @@ class Santander extends AbstractRetorno implements RetornoCnab240
         }
 
         if ($this->getSegmentType($detalhe) == 'U') {
-            $d->setValorMulta(Util::nFloat($this->rem(18, 32, $detalhe)/100, 2, false))
-                ->setValorDesconto(Util::nFloat($this->rem(33, 47, $detalhe)/100, 2, false))
-                ->setValorAbatimento(Util::nFloat($this->rem(48, 62, $detalhe)/100, 2, false))
-                ->setValorIOF(Util::nFloat($this->rem(63, 77, $detalhe)/100, 2, false))
-                ->setValorRecebido(Util::nFloat($this->rem(93, 107, $detalhe)/100, 2, false))
+            $d->setValorMulta(Util::nFloat($this->rem(18, 32, $detalhe) / 100, 2, false))
+                ->setValorDesconto(Util::nFloat($this->rem(33, 47, $detalhe) / 100, 2, false))
+                ->setValorAbatimento(Util::nFloat($this->rem(48, 62, $detalhe) / 100, 2, false))
+                ->setValorIOF(Util::nFloat($this->rem(63, 77, $detalhe) / 100, 2, false))
+                ->setValorRecebido(Util::nFloat($this->rem(93, 107, $detalhe) / 100, 2, false))
                 ->setDataOcorrencia($this->rem(138, 145, $detalhe))
                 ->setDataCredito($this->rem(146, 153, $detalhe));
         }
@@ -286,15 +289,15 @@ class Santander extends AbstractRetorno implements RetornoCnab240
         $this->getTrailerLote()
             ->setLoteServico($this->rem(4, 7, $trailer))
             ->setTipoRegistro($this->rem(8, 8, $trailer))
-            ->setQtdRegistroLote((int) $this->rem(18, 23, $trailer))
-            ->setQtdTitulosCobrancaSimples((int) $this->rem(24, 29, $trailer))
-            ->setValorTotalTitulosCobrancaSimples(Util::nFloat($this->rem(30, 46, $trailer)/100, 2, false))
-            ->setQtdTitulosCobrancaVinculada((int) $this->rem(47, 52, $trailer))
-            ->setValorTotalTitulosCobrancaVinculada(Util::nFloat($this->rem(53, 69, $trailer)/100, 2, false))
-            ->setQtdTitulosCobrancaCaucionada((int) $this->rem(70, 75, $trailer))
-            ->setValorTotalTitulosCobrancaCaucionada(Util::nFloat($this->rem(76, 92, $trailer)/100, 2, false))
-            ->setQtdTitulosCobrancaDescontada((int) $this->rem(93, 98, $trailer))
-            ->setValorTotalTitulosCobrancaDescontada(Util::nFloat($this->rem(99, 115, $trailer)/100, 2, false))
+            ->setQtdRegistroLote((int)$this->rem(18, 23, $trailer))
+            ->setQtdTitulosCobrancaSimples((int)$this->rem(24, 29, $trailer))
+            ->setValorTotalTitulosCobrancaSimples(Util::nFloat($this->rem(30, 46, $trailer) / 100, 2, false))
+            ->setQtdTitulosCobrancaVinculada((int)$this->rem(47, 52, $trailer))
+            ->setValorTotalTitulosCobrancaVinculada(Util::nFloat($this->rem(53, 69, $trailer) / 100, 2, false))
+            ->setQtdTitulosCobrancaCaucionada((int)$this->rem(70, 75, $trailer))
+            ->setValorTotalTitulosCobrancaCaucionada(Util::nFloat($this->rem(76, 92, $trailer) / 100, 2, false))
+            ->setQtdTitulosCobrancaDescontada((int)$this->rem(93, 98, $trailer))
+            ->setValorTotalTitulosCobrancaDescontada(Util::nFloat($this->rem(99, 115, $trailer) / 100, 2, false))
             ->setNumeroAvisoLancamento($this->rem(116, 123, $trailer));
 
         return true;
@@ -311,8 +314,8 @@ class Santander extends AbstractRetorno implements RetornoCnab240
         $this->getTrailer()
             ->setNumeroLote($this->rem(4, 7, $trailer))
             ->setTipoRegistro($this->rem(8, 8, $trailer))
-            ->setQtdLotesArquivo((int) $this->rem(18, 23, $trailer))
-            ->setQtdRegistroArquivo((int) $this->rem(24, 29, $trailer));
+            ->setQtdLotesArquivo((int)$this->rem(18, 23, $trailer))
+            ->setQtdRegistroArquivo((int)$this->rem(24, 29, $trailer));
 
         return true;
     }

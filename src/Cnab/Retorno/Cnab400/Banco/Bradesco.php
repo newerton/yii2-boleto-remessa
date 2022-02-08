@@ -1,13 +1,17 @@
 <?php
+
 namespace Newerton\Yii2Boleto\Cnab\Retorno\Cnab400\Banco;
 
 use Newerton\Yii2Boleto\Cnab\Retorno\Cnab400\AbstractRetorno;
 use Newerton\Yii2Boleto\Contracts\Boleto\Boleto as BoletoContract;
 use Newerton\Yii2Boleto\Contracts\Cnab\RetornoCnab400;
+use Newerton\Yii2Boleto\Traits\ArrayHelper;
 use Newerton\Yii2Boleto\Util;
 
 class Bradesco extends AbstractRetorno implements RetornoCnab400
 {
+    use ArrayHelper;
+
     /**
      * Código do banco
      *
@@ -95,18 +99,18 @@ class Bradesco extends AbstractRetorno implements RetornoCnab400
             ->setNumeroDocumento($this->rem(117, 126, $detalhe))
             ->setNumeroControle($this->rem(38, 62, $detalhe))
             ->setOcorrencia($this->rem(109, 110, $detalhe))
-            ->setOcorrenciaDescricao(array_get($this->ocorrencias, $d->getOcorrencia(), 'Desconhecida'))
+            ->setOcorrenciaDescricao($this->array_get($this->ocorrencias, $d->getOcorrencia(), 'Desconhecida'))
             ->setDataOcorrencia($this->rem(111, 116, $detalhe))
             ->setDataVencimento($this->rem(147, 152, $detalhe))
             ->setDataCredito($this->rem(296, 301, $detalhe))
-            ->setValor(Util::nFloat($this->rem(153, 165, $detalhe)/100, 2, false))
-            ->setValorTarifa(Util::nFloat($this->rem(176, 188, $detalhe)/100, 2, false))
-            ->setValorIOF(Util::nFloat($this->rem(215, 227, $detalhe)/100, 2, false))
-            ->setValorAbatimento(Util::nFloat($this->rem(228, 240, $detalhe)/100, 2, false))
-            ->setValorDesconto(Util::nFloat($this->rem(241, 253, $detalhe)/100, 2, false))
-            ->setValorRecebido(Util::nFloat($this->rem(254, 266, $detalhe)/100, 2, false))
-            ->setValorMora(Util::nFloat($this->rem(267, 279, $detalhe)/100, 2, false))
-            ->setValorMulta(Util::nFloat($this->rem(280, 292, $detalhe)/100, 2, false));
+            ->setValor(Util::nFloat($this->rem(153, 165, $detalhe) / 100, 2, false))
+            ->setValorTarifa(Util::nFloat($this->rem(176, 188, $detalhe) / 100, 2, false))
+            ->setValorIOF(Util::nFloat($this->rem(215, 227, $detalhe) / 100, 2, false))
+            ->setValorAbatimento(Util::nFloat($this->rem(228, 240, $detalhe) / 100, 2, false))
+            ->setValorDesconto(Util::nFloat($this->rem(241, 253, $detalhe) / 100, 2, false))
+            ->setValorRecebido(Util::nFloat($this->rem(254, 266, $detalhe) / 100, 2, false))
+            ->setValorMora(Util::nFloat($this->rem(267, 279, $detalhe) / 100, 2, false))
+            ->setValorMulta(Util::nFloat($this->rem(280, 292, $detalhe) / 100, 2, false));
 
         if ($d->hasOcorrencia('06', '15', '17')) {
             $this->totais['liquidados']++;
@@ -137,12 +141,12 @@ class Bradesco extends AbstractRetorno implements RetornoCnab400
     {
         $this->getTrailer()
             ->setQuantidadeTitulos($this->rem(18, 25, $trailer))
-            ->setValorTitulos(Util::nFloat($this->rem(26, 39, $trailer)/100, 2, false))
-            ->setQuantidadeErros((int) $this->totais['erros'])
-            ->setQuantidadeEntradas((int) $this->totais['entradas'])
-            ->setQuantidadeLiquidados((int) $this->totais['liquidados'])
-            ->setQuantidadeBaixados((int) $this->totais['baixados'])
-            ->setQuantidadeAlterados((int) $this->totais['alterados']);
+            ->setValorTitulos(Util::nFloat($this->rem(26, 39, $trailer) / 100, 2, false))
+            ->setQuantidadeErros((int)$this->totais['erros'])
+            ->setQuantidadeEntradas((int)$this->totais['entradas'])
+            ->setQuantidadeLiquidados((int)$this->totais['liquidados'])
+            ->setQuantidadeBaixados((int)$this->totais['baixados'])
+            ->setQuantidadeAlterados((int)$this->totais['alterados']);
 
         return true;
     }
