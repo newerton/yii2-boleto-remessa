@@ -1,6 +1,7 @@
 <?php
 namespace Newerton\Yii2Boleto\Cnab\Retorno\Cnab400\Banco;
 
+use Newerton\Yii2Boleto\Traits\ArrayHelper;
 use Newerton\Yii2Boleto\Util;
 use Newerton\Yii2Boleto\Contracts\Cnab\RetornoCnab400;
 use Newerton\Yii2Boleto\Cnab\Retorno\Cnab400\AbstractRetorno;
@@ -8,6 +9,8 @@ use Newerton\Yii2Boleto\Contracts\Boleto\Boleto as BoletoContract;
 
 class Itau extends AbstractRetorno implements RetornoCnab400
 {
+    use ArrayHelper;
+
     /**
      * Código do banco
      *
@@ -143,7 +146,7 @@ class Itau extends AbstractRetorno implements RetornoCnab400
             ->setNumeroDocumento($this->rem(117, 126, $detalhe))
             ->setNumeroControle($this->rem(38, 62, $detalhe))
             ->setOcorrencia($this->rem(109, 110, $detalhe))
-            ->setOcorrenciaDescricao(array_get($this->ocorrencias, $d->getOcorrencia(), 'Desconhecida'))
+            ->setOcorrenciaDescricao($this->array_get($this->ocorrencias, $d->getOcorrencia(), 'Desconhecida'))
             ->setDataOcorrencia($this->rem(111, 116, $detalhe))
             ->setDataVencimento($this->rem(147, 152, $detalhe))
             ->setDataCredito($this->rem(296, 301, $detalhe))

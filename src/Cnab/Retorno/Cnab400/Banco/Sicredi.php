@@ -1,13 +1,17 @@
 <?php
+
 namespace Newerton\Yii2Boleto\Cnab\Retorno\Cnab400\Banco;
 
 use Newerton\Yii2Boleto\Cnab\Retorno\Cnab400\AbstractRetorno;
 use Newerton\Yii2Boleto\Contracts\Boleto\Boleto as BoletoContract;
 use Newerton\Yii2Boleto\Contracts\Cnab\RetornoCnab400;
+use Newerton\Yii2Boleto\Traits\ArrayHelper;
 use Newerton\Yii2Boleto\Util;
 
 class Sicredi extends AbstractRetorno implements RetornoCnab400
 {
+    use ArrayHelper;
+
     /**
      * Código do banco
      *
@@ -239,18 +243,18 @@ class Sicredi extends AbstractRetorno implements RetornoCnab400
         $d->setNossoNumero($this->rem(48, 62, $detalhe))
             ->setOcorrencia($this->rem(109, 110, $detalhe))
             ->setNumeroDocumento($this->rem(117, 126, $detalhe))
-            ->setOcorrenciaDescricao(array_get($this->ocorrencias, $d->getOcorrencia(), 'Desconhecida'))
+            ->setOcorrenciaDescricao($this->array_get($this->ocorrencias, $d->getOcorrencia(), 'Desconhecida'))
             ->setDataOcorrencia($this->rem(111, 116, $detalhe), 'dmy')
             ->setDataVencimento($this->rem(147, 152, $detalhe), 'dmy')
-            ->setValor(Util::nFloat($this->rem(153, 165, $detalhe)/100, 2, false))
-            ->setValorTarifa(Util::nFloat($this->rem(176, 188, $detalhe)/100, 2, false))
-            ->setValorAbatimento(Util::nFloat($this->rem(228, 240, $detalhe)/100, 2, false))
-            ->setValorDesconto(Util::nFloat($this->rem(241, 253, $detalhe)/100, 2, false))
-            ->setValorRecebido(Util::nFloat($this->rem(254, 266, $detalhe)/100, 2, false))
-            ->setValorMora(Util::nFloat($this->rem(267, 279, $detalhe)/100, 2, false))
-            ->setValorMulta(Util::nFloat($this->rem(280, 292, $detalhe)/100, 2, false))
+            ->setValor(Util::nFloat($this->rem(153, 165, $detalhe) / 100, 2, false))
+            ->setValorTarifa(Util::nFloat($this->rem(176, 188, $detalhe) / 100, 2, false))
+            ->setValorAbatimento(Util::nFloat($this->rem(228, 240, $detalhe) / 100, 2, false))
+            ->setValorDesconto(Util::nFloat($this->rem(241, 253, $detalhe) / 100, 2, false))
+            ->setValorRecebido(Util::nFloat($this->rem(254, 266, $detalhe) / 100, 2, false))
+            ->setValorMora(Util::nFloat($this->rem(267, 279, $detalhe) / 100, 2, false))
+            ->setValorMulta(Util::nFloat($this->rem(280, 292, $detalhe) / 100, 2, false))
             ->setDataCredito($this->rem(329, 336, $detalhe), 'Ymd');
-        
+
         $this->totais['valor_recebido'] += (double)$d->getValorRecebido();
 
         if ($d->hasOcorrencia('06', '15', '16')) {
@@ -278,10 +282,10 @@ class Sicredi extends AbstractRetorno implements RetornoCnab400
         $errorsRetorno = str_split($stringErrors, 2);
         if (trim($stringErrors, '0') != '') {
             $error = [];
-            $error[] = array_get($this->rejeicoes, $errorsRetorno[0], '');
-            $error[] = array_get($this->rejeicoes, $errorsRetorno[1], '');
-            $error[] = array_get($this->rejeicoes, $errorsRetorno[2], '');
-            $error[] = array_get($this->rejeicoes, $errorsRetorno[4], '');
+            $error[] = $this->array_get($this->rejeicoes, $errorsRetorno[0], '');
+            $error[] = $this->array_get($this->rejeicoes, $errorsRetorno[1], '');
+            $error[] = $this->array_get($this->rejeicoes, $errorsRetorno[2], '');
+            $error[] = $this->array_get($this->rejeicoes, $errorsRetorno[4], '');
             $d->setError(implode(PHP_EOL, $error));
         }
 
@@ -291,13 +295,13 @@ class Sicredi extends AbstractRetorno implements RetornoCnab400
     protected function processarTrailer(array $trailer)
     {
         $this->getTrailer()
-            ->setQuantidadeTitulos((int) $this->count())
-            ->setValorTitulos((float) Util::nFloat($this->totais['valor_recebido'], 2, false))
-            ->setQuantidadeErros((int) $this->totais['erros'])
-            ->setQuantidadeEntradas((int) $this->totais['entradas'])
-            ->setQuantidadeLiquidados((int) $this->totais['liquidados'])
-            ->setQuantidadeBaixados((int) $this->totais['baixados'])
-            ->setQuantidadeAlterados((int) $this->totais['alterados']);
+            ->setQuantidadeTitulos((int)$this->count())
+            ->setValorTitulos((float)Util::nFloat($this->totais['valor_recebido'], 2, false))
+            ->setQuantidadeErros((int)$this->totais['erros'])
+            ->setQuantidadeEntradas((int)$this->totais['entradas'])
+            ->setQuantidadeLiquidados((int)$this->totais['liquidados'])
+            ->setQuantidadeBaixados((int)$this->totais['baixados'])
+            ->setQuantidadeAlterados((int)$this->totais['alterados']);
 
         return true;
     }
