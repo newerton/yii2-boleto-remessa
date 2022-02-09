@@ -248,7 +248,7 @@ trait ArrayHelper
             return $array[$key];
         }
         if (strpos($key, '.') === false) {
-            return $array[$key] ? $array[$key] : $this->value($default);
+            return isset($array[$key]) ? $array[$key] : $this->value($default);
         }
         foreach (explode('.', $key) as $segment) {
             if ($this->array_accessible($array) && $this->array_exists($array, $segment)) {
