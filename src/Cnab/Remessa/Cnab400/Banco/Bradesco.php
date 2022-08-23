@@ -166,11 +166,11 @@ class Bradesco extends AbstractRemessa implements RemessaContract
             Util::formatCnab('9', $this->getContaDv() ?: CalculoDV::bradescoContaCorrente($this->getConta()), 1);
 
         $this->add(1, 1, '1');
-        $this->add(2, 6, '');
-        $this->add(7, 7, '');
-        $this->add(8, 12, '');
-        $this->add(13, 19, '');
-        $this->add(20, 20, '');
+        $this->add(2, 6, '0000');
+        $this->add(7, 7, '0');
+        $this->add(8, 12, '00000');
+        $this->add(13, 19, '0000000');
+        $this->add(20, 20, '0');
         $this->add(21, 37, Util::formatCnab('9', $beneficiario_id, 17));
         $this->add(38, 62, Util::formatCnab('X', $boleto->getNumeroControle(), 25)); // numero de controle
         $this->add(63, 65, $this->getCodigoBanco());
