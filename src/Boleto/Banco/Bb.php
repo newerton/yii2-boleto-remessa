@@ -150,7 +150,7 @@ class Bb extends AbstractBoleto implements BoletoContract
     public function getNossoNumeroBoleto()
     {
         $nn = $this->getNossoNumero() . CalculoDV::bbNossoNumero($this->getNossoNumero());
-        return strlen($nn) <= 17 ? substr_replace($nn, '-', -1, 0) : $nn;
+        return strlen($nn) < 17 ? substr_replace($nn, '-', -1, 0) : $nn;
     }
 
     /**
