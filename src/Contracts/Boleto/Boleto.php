@@ -141,6 +141,13 @@ interface Boleto
     public function getDiasProtesto($default = 0);
 
     /**
+     * Retorna o naoProtestar
+     *
+     * @return bool
+     */
+    public function getNaoProtestar();
+
+    /**
      * @param int $default
      *
      * @return mixed

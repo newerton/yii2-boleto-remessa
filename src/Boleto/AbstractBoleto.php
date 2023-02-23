@@ -82,6 +82,13 @@ abstract class AbstractBoleto implements BoletoContract
     protected $jurosApos = 0;
 
     /**
+     * Não protestar boleto
+     *
+     * @var bool
+     */
+    protected $naoProtestar = false;
+
+    /**
      * Dias para protesto
      *
      * @var integer
@@ -1110,6 +1117,29 @@ abstract class AbstractBoleto implements BoletoContract
     public function getJurosApos()
     {
         return $this->jurosApos;
+    }
+
+    /**
+     * Seta não protestar
+     *
+     * @param $naoProtestar
+     * @return AbstractBoleto
+     */
+    public function setNaoProtestar($naoProtestar)
+    {
+        $this->naoProtestar = (bool) $naoProtestar;
+
+        return $this;
+    }
+
+    /**
+     * Retorna o naoProtestar
+     *
+     * @return bool
+     */
+    public function getNaoProtestar()
+    {
+        return (bool) $this->naoProtestar;
     }
 
     /**
