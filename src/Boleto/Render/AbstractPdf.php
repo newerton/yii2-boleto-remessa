@@ -2,7 +2,7 @@
 
 namespace Newerton\Yii2Boleto\Boleto\Render;
 
-use fpdf\FPDF;
+use FPDF;
 
 abstract class AbstractPdf extends FPDF
 {
@@ -80,9 +80,9 @@ abstract class AbstractPdf extends FPDF
         return $this->CurrPageGroup;
     }
 
-    public function _beginpage($orientation, $size)
+    public function _beginpage($orientation, $size, $rotation)
     {
-        parent::_beginpage($orientation, $size);
+        parent::_beginpage($orientation, $size, $rotation);
         if ($this->NewPageGroup) {
             // start a new group
             $n = sizeof($this->PageGroups) + 1;
