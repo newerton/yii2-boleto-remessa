@@ -166,14 +166,14 @@ class Bradesco extends AbstractRemessa implements RemessaContract
             Util::formatCnab('9', $this->getContaDv() ?: CalculoDV::bradescoContaCorrente($this->getConta()), 1);
 
         $this->add(1, 1, '1');
-        $this->add(2, 6, '');
-        $this->add(7, 7, '');
-        $this->add(8, 12, '');
-        $this->add(13, 19, '');
-        $this->add(20, 20, '');
+        $this->add(2, 6, '0000');
+        $this->add(7, 7, '0');
+        $this->add(8, 12, '00000');
+        $this->add(13, 19, '0000000');
+        $this->add(20, 20, '0');
         $this->add(21, 37, Util::formatCnab('9', $beneficiario_id, 17));
         $this->add(38, 62, Util::formatCnab('X', $boleto->getNumeroControle(), 25)); // numero de controle
-        $this->add(63, 65, $this->getCodigoBanco());
+        $this->add(63, 65, '000');
         $this->add(66, 66, $boleto->getMulta() > 0 ? '2' : '0');
         $this->add(67, 70, Util::formatCnab('9', $boleto->getMulta() > 0 ? $boleto->getMulta() : '0', 4, 2));
         $this->add(71, 82, Util::formatCnab('9', $boleto->getNossoNumero(), 12));
@@ -182,7 +182,7 @@ class Bradesco extends AbstractRemessa implements RemessaContract
         $this->add(94, 94, ''); // N= Não registra na cobrança. Diferente de N registra e emite Boleto.
         $this->add(95, 104, '');
         $this->add(105, 105, '');
-        $this->add(106, 106, '2'); // 1 = emite aviso, e assume o endereço do Pagador constante do Arquivo-Remessa; 2 = não emite aviso;
+        $this->add(106, 106, '0'); // 1 = emite aviso, e assume o endereço do Pagador constante do Arquivo-Remessa; 2 = não emite aviso; 0 = emite e assume o endereço do cliente debitado, constante do cadastro do Banco
         $this->add(107, 108, '');
         $this->add(109, 110, self::OCORRENCIA_REMESSA); // REGISTRO
         if ($boleto->getStatus() == $boleto::STATUS_BAIXA) {
