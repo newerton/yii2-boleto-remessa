@@ -481,7 +481,13 @@ final class Util
      */
     public static function fatorVencimento(Carbon $date, $format = 'Y-m-d')
     {
+        // Retorna o número de dias de 07/10/1997 até a data de vencimento do boleto, 
+        // caso a data de vencimento seja posterior a 22/02/2025 será usado 22/02/2025 até a data de vencimento para calcular o número de dias.
+        $dateLimit = new Carbon('2025-02-22');
         $date = ($date instanceof Carbon) ? $date : Carbon::createFromFormat($format, $date)->setTime(0, 0, 0);
+        if ($dateLimit->lte($date)) {
+            return ($date->diffInDays($dateLimit) + 1000);
+        }
         return (new Carbon('1997-10-07'))->diffInDays($date);
     }
 
